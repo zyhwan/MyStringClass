@@ -22,7 +22,7 @@ public:
 		strcpy(Str, rhs.Str);
 	}
 	//복사 대입 연산자 오버로딩
-	String& operator=(String& rhs)
+	String &operator=(const String& rhs)
 	{
 		if (this != &rhs)
 		{
@@ -53,6 +53,12 @@ private:
 	int len;
 };
 
+String GetName()
+{
+	String res("Doodle");
+	return res;
+}
+
 
 int main()
 {
@@ -61,6 +67,9 @@ int main()
 	String s3;
 
 	s3 = s2;
+	
+	String a;
+	a = GetName();
 
 	std::cout << str.GetStr() << std::endl;
 	std::cout << s2.GetStr() << std::endl;
