@@ -85,6 +85,11 @@ private:
 	int len;
 };
 
+String& GetStr()
+{
+
+}
+
 
 int main()
 {
