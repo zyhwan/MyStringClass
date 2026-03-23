@@ -44,6 +44,8 @@ int main()
 		std::cout << b->GetX() << std::endl;
 		std::cout << a.use_count() << std::endl;
 		std::cout << b.use_count() << std::endl;
+		b.reset();
+		std::cout << b.use_count() << std::endl;
 	}
 	std::cout << a.use_count() << std::endl;
 
