@@ -48,8 +48,6 @@ public:
 		return *this;
 	}
 
-
-
 	String &operator<<(String& str)
 	{
 		return *this;
