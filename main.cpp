@@ -1,4 +1,4 @@
-#include <iostream>
+#include<iostream>
 
 class String
 {
@@ -7,17 +7,18 @@ public:
 	{
 
 	}
+	//기본 생성자
 	String(const char* str)
-	{
+	{	
 		len = strlen(str);
-		alloc(len);
+		Str = new char[len + 1];
 		strcpy(Str, str);
 	}
 	//복사 생성자
 	String(const String& rhs)
 	{
 		len = rhs.len;
-		alloc(len);
+		Str = new char[len + 1];
 		strcpy(Str, rhs.Str);
 	}
 	//이동 생성자
@@ -27,14 +28,19 @@ public:
 		Str = rhs.Str;
 		rhs.Str = nullptr;
 	}
-	//복사 대입 연산자 오버로딩
+	~String()
+	{
+		std::cout << "소멸자 호출" << std::endl;
+ 		delete[] Str;
+	}
+	//대입 연산자 오버로딩
 	String& operator=(String& rhs)
 	{
 		if (this != &rhs)
 		{
 			len = rhs.len;
-			release();
-			alloc(len);
+			delete[] Str;
+			Str = new char[len + 1];
 			strcpy(Str, rhs.Str);
 		}
 		return *this;
@@ -42,65 +48,49 @@ public:
 	//이동 대입 연산자 오버로딩
 	String& operator=(String&& rhs)
 	{
-		len = rhs.len;
-		Str = rhs.Str;
-		rhs.Str = nullptr;
-		return *this;
-	}
-
-	String &operator<<(String& str)
-	{
-		return *this;
-	}
-
-
-	~String()
-	{
-		std::cout << "소멸자 호출" << std::endl;
-		release();
-	}
-
-	const char* GetData()
-	{
-		if(Str != nullptr)
+		if (this != &rhs)
 		{
-			return Str;
+			len = rhs.len;
+			Str = rhs.Str;
+			rhs.Str = nullptr;
 		}
-		return"";
+		return *this;
+	}
+	char* GetData() const
+	{
+		return Str;
+	}
+	int GetLen() const
+	{
+		return len;
 	}
 
 private:
-	void alloc(const int n)
-	{
-		Str = new char[n + 1];
-	}
-	void release()
-	{
-		if (Str != nullptr)
-		{
-			delete[] Str;
-		}
-	}
 	char* Str;
 	int len;
+
 };
 
-String& GetStr()
+String GetStr()
 {
-
+	String s1("tempStr");
+	return s1;
 }
 
 
 int main()
 {
 	String s1("Hello");
-	String s2(s1);
-	String s3;
-	s3 = s1;
+	String s2;
+	String s3(GetStr());
+	String s4;
+
+	s2 = s1;
+	s4 = GetStr();
+	
 
 	std::cout << s1.GetData() << std::endl;
 	std::cout << s2.GetData() << std::endl;
 	std::cout << s3.GetData() << std::endl;
-	
-	return 0;
+	std::cout << s4.GetData() << std::endl;
 }
